@@ -4,8 +4,8 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.3"
-
+    buildToolsVersion '29.0.2'
+    compileOptions.incremental = false
     defaultConfig {
         minSdkVersion 15
     }
@@ -32,20 +32,23 @@ android {
         hiddenapi.android.compileSdkVersion compileSdkVersion
         hiddenapi.android.buildToolsVersion buildToolsVersion
         preBuild.dependsOn ':hiddenapistubs:assembleRelease'
-        hiddenapi.preBuild << {
-            def hiddenapiCompiler = hiddenapi.android.libraryVariants[0].javaCompiler
-            def hiddenapiDestPath = hiddenapiCompiler.destinationDir.getAbsolutePath()
-            applicationVariants.all { variant ->
-                variant.javaCompiler.with {
-                    dependsOn hiddenapiCompiler
-                    options.bootClasspath = hiddenapiDestPath + File.pathSeparator + options.bootClasspath
-                    if (variant.name == BuilderConstants.RELEASE) {
-                        generateDocs.options.bootClasspath = files(options.bootClasspath.split(File.pathSeparator), destinationDir).asType(List)
-                        generateStubs.options.bootClasspath = generateDocs.options.bootClasspath
-                        compileStubs.classpath = files(options.bootClasspath.split(File.pathSeparator))
+        hiddenapi.preBuild  {
+            doLast {
+                def hiddenapiCompiler = hiddenapi.android.libraryVariants[0].javaCompiler
+                def hiddenapiDestPath = hiddenapiCompiler.destinationDir.getAbsolutePath()
+                applicationVariants.all { variant ->
+                    variant.javaCompiler.with {
+                        dependsOn hiddenapiCompiler
+                        options.bootClasspath = hiddenapiDestPath + File.pathSeparator + options.bootClasspath
+                        if (variant.name == BuilderConstants.RELEASE) {
+                            generateDocs.options.bootClasspath = files(options.bootClasspath.split(File.pathSeparator), destinationDir).asType(List)
+                            generateStubs.options.bootClasspath = generateDocs.options.bootClasspath
+                            compileStubs.classpath = files(options.bootClasspath.split(File.pathSeparator))
+                        }
                     }
                 }
             }
+
         }
     }
 }
@@ -81,7 +84,7 @@ task generateDocs(type: Javadoc, dependsOn: 'compileReleaseSources') {
         assert sdkSources.exists()
         addFileOption 'sourcepath', sdkSources
 
-        failOnError = false
+        failOnError = true
         addStringOption 'Xmaxwarns', '1'
         addStringOption 'Xmaxerrs', '1'
         (101..122).each {
