@@ -33,7 +33,8 @@ public class XModuleResources extends Resources {
 			throw new IllegalArgumentException("path must not be null");
 
 		AssetManager assets = new AssetManager();
-		assets.addAssetPath(path);
+		// TODO 临时注释掉这行代码
+		// assets.addAssetPath(path);
 
 		XModuleResources res;
 		if (origRes != null)

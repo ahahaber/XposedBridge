@@ -794,7 +794,7 @@ public class XResources extends XResourcesSuperClass {
 	}
 
 	/** @hide */
-	@Override
+
 	public Drawable getDrawable(int id, Theme theme, boolean supportComposedIcons) throws NotFoundException {
 		try {
 			if (incrementMethodDepth("getDrawable") == 1) {
@@ -813,7 +813,7 @@ public class XResources extends XResourcesSuperClass {
 					return repRes.getDrawable(repId);
 				}
 			}
-			return super.getDrawable(id, theme, supportComposedIcons);
+			return super.getDrawable(id, theme);
 		} finally {
 			decrementMethodDepth("getDrawable");
 		}
@@ -872,7 +872,6 @@ public class XResources extends XResourcesSuperClass {
 	}
 
 	/** @hide */
-	@Override
 	public Drawable getDrawableForDensity(int id, int density, Theme theme, boolean supportComposedIcons) throws NotFoundException {
 		try {
 			if (incrementMethodDepth("getDrawableForDensity") == 1) {
@@ -891,7 +890,7 @@ public class XResources extends XResourcesSuperClass {
 					return repRes.getDrawableForDensity(repId, density);
 				}
 			}
-			return super.getDrawableForDensity(id, density, theme, supportComposedIcons);
+			return super.getDrawableForDensity(id, density, theme);
 		} finally {
 			decrementMethodDepth("getDrawableForDensity");
 		}

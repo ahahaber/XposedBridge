@@ -5,11 +5,16 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 23
     buildToolsVersion '29.0.2'
-    compileOptions.incremental = false
     defaultConfig {
         minSdkVersion 15
     }
 
+    compileOptions {
+        incremental  false
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
+    
     sourceSets {
         main {
             java.srcDirs += ['src/main/apacheCommonsLang']
@@ -23,7 +28,7 @@ android {
         }
     }
 
-    // Add the hidden API stub classes to the bootclasspath.
+    // Add the hidden API stub classes to the bootstrapClasspath.
     // As they have to be injected before the official SDK classes and must not be part of the
     // final JAR/APK, the best way seems to compile them in a separate project and use some dirty
     // magic to add its output directory to all variants' configuration.
@@ -39,11 +44,13 @@ android {
                 applicationVariants.all { variant ->
                     variant.javaCompiler.with {
                         dependsOn hiddenapiCompiler
-                        options.bootClasspath = hiddenapiDestPath + File.pathSeparator + options.bootClasspath
+                        println "options"
+                        println options.bootstrapClasspath
+//                        compileOptions.bootstrapClasspath = hiddenapiDestPath + File.pathSeparator + options.bootstrapClasspath[0]
                         if (variant.name == BuilderConstants.RELEASE) {
-                            generateDocs.options.bootClasspath = files(options.bootClasspath.split(File.pathSeparator), destinationDir).asType(List)
-                            generateStubs.options.bootClasspath = generateDocs.options.bootClasspath
-                            compileStubs.classpath = files(options.bootClasspath.split(File.pathSeparator))
+                            generateDocs.options.bootClasspath = files(options.bootstrapClasspath, destinationDir).asType(List)
+                            generateStubs.options.bootClasspath = files(options.bootstrapClasspath).asType(List)
+                            compileStubs.classpath = files(options.bootstrapClasspath)
                         }
                     }
                 }
@@ -169,4 +176,8 @@ task fixIml {
     }
 }
 
-tasks.preBuild.dependsOn fixIml
+dependencies {
+    implementation project(path: ':hiddenapistubs')
+}
+
+// tasks.preBuild.dependsOn fixIml
