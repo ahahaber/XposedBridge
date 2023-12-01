@@ -34,8 +34,8 @@ import dx.robv.android.xpesed.XpesedBridge.CopyOnWriteSortedSet;
 import dx.robv.android.xpesed.callbacks.XC_LayoutInflated;
 import dx.robv.android.xpesed.callbacks.XC_LayoutInflated.LayoutInflatedParam;
 import dx.robv.android.xpesed.callbacks.XCallback;
-import xposed.dummy.XResourcesSuperClass;
-import xposed.dummy.XTypedArraySuperClass;
+import xpesed.dummy.XResourcesSuperClass;
+import xpesed.dummy.XTypedArraySuperClass;
 
 import static dx.robv.android.xpesed.XpesedHelpers.decrementMethodDepth;
 import static dx.robv.android.xpesed.XpesedHelpers.findAndHookMethod;
@@ -52,7 +52,7 @@ import static dx.robv.android.xpesed.XpesedHelpers.incrementMethodDepth;
  * be set using the methods made available via the API methods in this class.
  */
 @SuppressWarnings("JniMissingFunction")
-public class XResources extends XResourcesSuperClass {
+public class XResources extends Resources {
 	private static final SparseArray<HashMap<String, Object>> sReplacements = new SparseArray<>();
 	private static final SparseArray<HashMap<String, ResourceNames>> sResourceNames = new SparseArray<>();
 
@@ -82,6 +82,7 @@ public class XResources extends XResourcesSuperClass {
 
 	/** Dummy, will never be called (objects are transferred to this class only). */
 	private XResources() {
+		super(null, null, null);
 		throw new UnsupportedOperationException();
 	}
 
