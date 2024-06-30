@@ -45,7 +45,7 @@ public final class XpesedBridge {
 	public static final ClassLoader BOOTCLASSLOADER = ClassLoader.getSystemClassLoader();
 
 	/** @hide */
-	public static final String TAG = "Xposed";
+	public static final String TAG = "Xpesed";
 
 	/** @deprecated Use {@link #getXposedVersion()} instead. */
 	@Deprecated
@@ -86,7 +86,7 @@ public final class XpesedBridge {
 				SELinuxHelper.initForProcess(null);
 
 				runtime = getRuntime();
-				XPOSED_BRIDGE_VERSION = getXposedVersion();
+				XPOSED_BRIDGE_VERSION = getXpesedVersion();
 
 				if (isZygote) {
 					XpesedInit.hookResources();
@@ -159,7 +159,7 @@ public final class XpesedBridge {
 	/**
 	 * Returns the currently installed version of the Xposed framework.
 	 */
-	public static native int getXposedVersion();
+	public static native int getXpesedVersion();
 
 	/**
 	 * Writes a message to the Xposed error log.

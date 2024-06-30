@@ -25,7 +25,7 @@ package android.content.res {
     method public android.content.res.Resources getResources();
   }
 
-  public class XResources extends XResourcesSuperClass {
+  public class XResources extends android.content.res.Resources {
     method public int addResource(android.content.res.Resources, int);
     method public static int getFakeResId(java.lang.String);
     method public static int getFakeResId(android.content.res.Resources, int);

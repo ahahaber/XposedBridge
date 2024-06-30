@@ -425,7 +425,7 @@ import static dx.robv.android.xpesed.XpesedHelpers.setStaticObjectField;
 	private static void hookXposedInstaller(ClassLoader classLoader) {
 		try {
 			findAndHookMethod(INSTALLER_PACKAGE_NAME + ".XposedApp", classLoader, "getActiveXposedVersion",
-					XC_MethodReplacement.returnConstant(XpesedBridge.getXposedVersion()));
+					XC_MethodReplacement.returnConstant(XpesedBridge.getXpesedVersion()));
 
 			findAndHookMethod(INSTALLER_PACKAGE_NAME + ".XposedApp", classLoader, "onCreate", new XC_MethodHook() {
 				@Override
